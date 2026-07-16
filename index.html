@@ -5,47 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Downloader</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-        }
-        input, select {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #cc0000;
-        }
-        #widget-container {
-            margin-top: 20px;
-        }
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 400px; }
+        input, select { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color: #ff0000; color: white; border: none; padding: 12px; border-radius: 5px; width: 100%; font-size: 16px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -55,36 +18,31 @@
     <input type="text" id="videoUrl" placeholder="Paste YouTube Link Here..." required>
     
     <select id="format">
-        <option value="mp3">Audio Only (MP3)</option>
-        <option value="720">Video (720p MP4)</option>
-        <option value="1080">Video (1080p MP4)</option>
+        <option value="mp3">Audio (MP3)</option>
+        <option value="720">Video (720p)</option>
+        <option value="1080">Video (1080p)</option>
     </select>
     
-    <button onclick="generateDownload()">Get Download Link</button>
-
-    <!-- The download button from the API will appear here -->
-    <div id="widget-container"></div>
+    <button onclick="openDownload()">Get Download Link</button>
 </div>
 
 <script>
-    function generateDownload() {
+    function openDownload() {
         let url = document.getElementById('videoUrl').value;
         let format = document.getElementById('format').value;
-        let container = document.getElementById('widget-container');
         
         if(url === "") {
-            alert("Please paste a valid YouTube link.");
+            alert("Please paste a link first!");
             return;
         }
 
-        // This calls a free public API to process the video without needing a backend server
-        let iframeUrl = `https://loader.to/api/button/?url=${encodeURIComponent(url)}&f=${format}`;
+        // This creates a direct link to the converter site
+        let targetUrl = `https://loader.to/api/button/?url=${encodeURIComponent(url)}&f=${format}`;
         
-        // Injects the secure download button directly into your webpage
-        container.innerHTML = `<iframe style="width:100%;height:60px;border:0;overflow:hidden;" scrolling="no" src="${iframeUrl}"></iframe>`;
+        // This forces the link to open in a new tab
+        window.open(targetUrl, '_blank');
     }
 </script>
 
 </body>
 </html>
-
